@@ -12,7 +12,7 @@ exports.createUser=async (req,res)=>{
                 errors:errors.array()
             });
         }
-        console.log(req.body);
+        // console.log(req.body);
         const { name, email, password }  = req.body;
 
         try{
