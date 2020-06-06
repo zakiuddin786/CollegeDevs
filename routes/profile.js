@@ -19,4 +19,14 @@ router.post("/",[ auth, [
 profileController.updateProfile
 );
 
+router.get("/getAllProfiles",
+profileController.getAllProfiles
+);
+
+router.get("/user/:userId",
+profileController.getUserProfile
+);
+
+router.delete("/",auth,
+profileController.deleteUserDetails);
 module.exports = router;

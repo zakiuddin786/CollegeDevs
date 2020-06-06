@@ -88,3 +88,59 @@ exports.updateProfile = async (req,res)=>{
         res.send("profile builder");
 
 }
+
+exports.getAllProfiles = async (req,res)=>{
+    try{
+        const profiles = await Profile.find().populate(
+            'user',['name','avatar']
+        );
+        return res.json(profiles);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send("Internal Server Error!");
+    }
+}
+
+exports.getUserProfile = async(req,res)=>{
+    try{
+        const profile = await Profile
+        .findOne({user:req.params.userId})
+        .populate(
+            'user',['name','avatar']
+        );
+
+        if(!profile)
+        return res.status(400).json({
+            msg:"Profile Not found!!"
+        })
+        return res.json(profile);
+    }
+    catch(err){
+        console.error(err.message);
+        if(err.kind=='ObjectId'){
+            return res.status(500).json({
+                msg:"Profile not Found!"
+            })
+        }
+        res.status(500).send("Internal Server Error!");
+    }
+}
+
+exports.deleteUserDetails = async (req,res)=>{
+try{
+    await Profile.findOneAndRemove({user:req.user.id});
+
+    await User.findOneAndRemove({_id:req.user.id});
+
+    return res.json({
+        msg:"User Deleted Successfully!"
+    });
+}
+catch(err){
+    console.error(err.message);
+    return res.status(500).send({
+        msg:"Internal Server Error!"
+    })
+}
+}
