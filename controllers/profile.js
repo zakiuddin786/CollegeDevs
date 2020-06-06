@@ -1,6 +1,7 @@
 const Profile = require("../models/Profile"); 
 const User = require("../models/User");
 const {validationResult}= require("express-validator");
+const request = require("request");
 
 exports.getProfile = async (req,res)=>{
     // console.log(req.user);
@@ -211,5 +212,109 @@ exports.deleteExperience = async (req,res)=>{
         res.status(500).send({
             msg:err.message
         })
+    }
+}
+
+exports.addEducation = async (req,res)=>{
+    const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                errors:errors.array()
+            });
+        }
+
+        const {
+            school,
+            degree,
+            fieldOfStudy,
+            from,
+            to,
+            current,
+            description
+        } = req.body;
+
+
+        const newEducation = {
+            school,
+            degree,
+            fieldOfStudy,
+            from,
+            to,
+            current,
+            description
+        }
+
+
+     try{
+        const profile = await Profile.findOne({user:req.user.id});
+        console.log(newEducation);
+
+        profile.education.unshift(newEducation);
+
+        await profile.save();
+
+        res.json(profile);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send({
+            msg:"Internal Server Error!!"
+        })
+    }
+}
+
+exports.deleteEducation = async (req,res)=>{
+    try{
+        const profile = await Profile.findOne({user:req.user.id});
+
+        const removeIndex = profile.education
+         .map(item => item.id).indexOf(req.params.EduId);
+
+        profile.education.splice(removeIndex,1);
+        await profile.save();
+
+        res.json(profile);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send({
+            msg:err.message
+        })
+    }
+}
+
+exports.getGithubUser = async (req,res)=>{
+    
+    try {
+        const options = {
+            uri:`https://api.github.com/users/${req.params.username}/repos?per_page=7&
+            sort=created:asc&client_id=${process.env.githubClientId}&
+            client_secret=${process.env.githubClientSecret}`,
+            method:"GET",
+            headers:{
+                "user-agent" :"node.js"
+            }
+        }
+
+        // console.log(options);
+
+        request(options, (error,response,body)=>{
+            if(error)
+            console.error(error);
+
+            if(response.statusCode!==200){
+                return res.status(404).json({
+                    msg:"Github Profile not Found!!"
+                });
+            }
+
+            res.json(JSON.parse(body));
+
+        })
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send({
+            msg:err.message
+        }) 
     }
 }

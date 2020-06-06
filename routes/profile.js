@@ -42,4 +42,22 @@ router.delete("/deleteExperience/:ExpId",auth,
 profileController.deleteExperience
 )
 
+router.put("/education",[auth, [
+    check("school","School is required").not().isEmpty(),
+    check("degree","Degree details are required").not().isEmpty(),
+    check("from","from date is required").not().isEmpty(),
+    check("fieldOfStudy","field of Study is required").not().isEmpty(),
+
+]],
+profileController.addEducation);
+
+router.delete("/deleteEducation/:EduId",auth,
+profileController.deleteEducation
+)
+
+router.get("/github/:username",
+profileController.getGithubUser);
+
+
+
 module.exports = router;
