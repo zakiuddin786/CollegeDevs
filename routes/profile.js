@@ -29,4 +29,13 @@ profileController.getUserProfile
 
 router.delete("/",auth,
 profileController.deleteUserDetails);
+ 
+router.put("/experience",[auth, [
+    check("title","title is required").not().isEmpty(),
+    check("company","company details are required").not().isEmpty(),
+    check("from","from date is required").not().isEmpty(),
+
+]],
+profileController.addExperience);
+
 module.exports = router;

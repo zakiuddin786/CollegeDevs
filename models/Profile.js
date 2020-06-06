@@ -28,12 +28,12 @@ const profileSchema = mongoose.Schema({
     gitHubUsername:{
         type:String
     },
-    exprerience:[{
+    experience:[{
         title:{
             type:String,
             required:true
         },
-        comapany:{
+        company:{
             type:String,
             required:true
         },
