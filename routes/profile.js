@@ -38,4 +38,8 @@ router.put("/experience",[auth, [
 ]],
 profileController.addExperience);
 
+router.delete("/deleteExperience/:ExpId",auth,
+profileController.deleteExperience
+)
+
 module.exports = router;
