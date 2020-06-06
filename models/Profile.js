@@ -93,9 +93,6 @@ const profileSchema = mongoose.Schema({
         twitter:{
             type:String
         },
-        gmail:{
-            type:String
-        },
         instagram:{
             type:String
         },
