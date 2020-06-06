@@ -1,0 +1,35 @@
+{
+  "name": "collegedevs",
+  "version": "1.0.0",
+  "description": "A Portal where all the budding developers of different college can connect with each other",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakiuddin786/CollegeDevs.git"
+  },
+  "author": "ZAki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zakiuddin786/CollegeDevs/issues"
+  },
+  "homepage": "https://github.com/zakiuddin786/CollegeDevs#readme",
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.5.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.18",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  }
+}
